@@ -9,12 +9,13 @@ DARKBLUE = (8,96,168)
 cell_size = 30 
 num_of_cells = 25
 
+print('hi')
 
 class Food:
     def __init__(self):
         self.position = Vector2(5,6)
     def draw(self):
-        food_rect = pygame.Rect(self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size )#x,y,w,h of rect.
+        food_rect = pygame.Rect(self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size )#x,y,w,h of rect
         pygame.draw.rect(screen, DARKBLUE, food_rect)
 
 
