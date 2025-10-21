@@ -56,25 +56,48 @@ class Snake():
         else:
             self.body = self.body[:-1]
 
+    def reset(self):
+        self.body = [Vector2(6,9), Vector2(5,9), Vector2(4,9)]
+        self.direction = Vector2(1,0)
+
 class Game():
     def __init__(self):
         self.snake = Snake()
         self.food = Food(self.snake.body)
-        self.add_segment = False
+        self.state = "RUNNING"
 
     def draw(self):
         self.food.draw()
         self.snake.draw()
-    
-    def update(self):
-        self.snake.update()
-        self.check_collision_with_food()
+        
 
+    def update(self):
+        if self.state == "RUNNING":
+            self.snake.update()
+            self.check_collision_with_food()
+            self.check_collision_with_edges()
+            self.check_collision_with_tail()
+        
     def check_collision_with_food(self):
         if self.snake.body[0] == self.food.position:
             self.food.position = self.food.gen_random_pos(self.snake.body)
             self.snake.add_segment = True
 
+    def check_collision_with_edges(self):
+        if self.snake.body[0].x == num_of_cells or self.snake.body[0].x == -1:
+            self.game_over()
+        elif self.snake.body[0].y == num_of_cells or self.snake.body[0].y == -1:
+            self.game_over()
+
+    def game_over(self):
+        self.snake.reset()
+        self.food.position = self.food.gen_random_pos(self.snake.body)
+        self.state = "STOPPED"
+
+    def check_collision_with_tail(self):
+        headless_body = self.snake.body[1:]
+        if self.snake.body[0] in headless_body:
+            self.game_over()
 
 screen = pygame.display.set_mode((cell_size*num_of_cells,cell_size*num_of_cells))
 pygame.display.set_caption('SnakeGame1')
@@ -98,6 +121,8 @@ while True:
 
         #checks if key is pressed
         if event.type == pygame.KEYDOWN:
+            if game.state == "STOPPED":
+                game.state = "RUNNING"
             #checks if key is up arrow AND checks if the snake's direction is not the opposite so it doesn't run into itself
             if event.key == pygame.K_UP and game.snake.direction != Vector2(0,1):
                 game.snake.direction = Vector2(0,-1)
