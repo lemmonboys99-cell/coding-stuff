@@ -9,18 +9,21 @@ else:  # For macOS and Linux
 
 pygame.init()
 
+title_font = pygame.font.Font(None, 50)
+
 BLUE = (80, 133, 188)
 DARKBLUE = (8,96,168)
 
 cell_size = 30 
 num_of_cells = 25
+OFFSET = 75
 
 class Food():
     def __init__(self, snake_body):
         self.position = self.gen_random_pos(snake_body)
 
     def draw(self):
-        food_rect = pygame.Rect(self.position.x * cell_size, self.position.y * cell_size, cell_size, cell_size )#x,y,w,h of rect
+        food_rect = pygame.Rect(OFFSET + self.position.x * cell_size, OFFSET + self.position.y * cell_size, cell_size, cell_size )#x,y,w,h of rect
         screen.blit(scaled_food_surface, food_rect)
 
     def gen_random_cell(self):
@@ -44,7 +47,7 @@ class Snake():
 
     def draw(self):
         for segment in self.body:
-            segment_rect = (segment.x * cell_size, segment.y * cell_size, cell_size, cell_size)
+            segment_rect = (OFFSET + segment.x * cell_size, OFFSET + segment.y * cell_size, cell_size, cell_size)
             pygame.draw.rect(screen, DARKBLUE, segment_rect,0,7)
 
     def update(self):
@@ -99,7 +102,7 @@ class Game():
         if self.snake.body[0] in headless_body:
             self.game_over()
 
-screen = pygame.display.set_mode((cell_size*num_of_cells,cell_size*num_of_cells))
+screen = pygame.display.set_mode((2*OFFSET + cell_size*num_of_cells , 2*OFFSET + cell_size*num_of_cells))
 pygame.display.set_caption('SnakeGame1')
 clock = pygame.time.Clock()
 
@@ -136,7 +139,10 @@ while True:
 
     #drawing
     screen.fill(BLUE)
+    pygame.draw.rect(screen, DARKBLUE, (OFFSET - 5, OFFSET - 5, cell_size * num_of_cells + 10, cell_size * num_of_cells + 10), 5)
     game.draw()
-    
+    title_surface = title_font.render("Snake: First Version (first game in python yay)", True, DARKBLUE)
+    screen.blit(title_surface, (OFFSET - 5, 20))
+
     pygame.display.update()
     clock.tick(60)
