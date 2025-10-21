@@ -7,6 +7,14 @@ if os.name == 'nt':  # For Windows
 else:  # For macOS and Linux
     os.system('clear')
 
+language = input('what language? Chinese or English? Enter C for Chinese, E for English.').lower()
+if language == 'e':
+    decision = "Snake: First Version (first game in python yay)"
+elif language == 'c':
+    decision = "汉语"
+else:
+    decision = "Snake: First Version (first game in python yay)"
+
 pygame.init()
 
 title_font = pygame.font.Font(None, 50)
@@ -108,6 +116,7 @@ clock = pygame.time.Clock()
 
 game = Game()
 
+#displays image
 food_surface = pygame.image.load(".\\graphics\\food.png").convert_alpha()
 scaled_food_surface = pygame.transform.scale(food_surface, (cell_size,cell_size)) #actual resized food texture that is used, so refer to this
 
@@ -141,7 +150,8 @@ while True:
     screen.fill(BLUE)
     pygame.draw.rect(screen, DARKBLUE, (OFFSET - 5, OFFSET - 5, cell_size * num_of_cells + 10, cell_size * num_of_cells + 10), 5)
     game.draw()
-    title_surface = title_font.render("Snake: First Version (first game in python yay)", True, DARKBLUE)
+
+    title_surface = title_font.render(decision, True, DARKBLUE)
     screen.blit(title_surface, (OFFSET - 5, 20))
 
     pygame.display.update()
