@@ -11,7 +11,8 @@ language = input('what language? Chinese or English? Enter C for Chinese, E for 
 if language == 'e':
     decision = "Snake: First Version (first game in python yay)"
 elif language == 'c':
-    decision = "汉语"
+    text_surface = pygame.image.load(".\\graphics\\chinese_text.png").convert_alpha()
+    
 else:
     decision = "Snake: First Version (first game in python yay)"
 
@@ -150,7 +151,7 @@ while True:
     screen.fill(BLUE)
     pygame.draw.rect(screen, DARKBLUE, (OFFSET - 5, OFFSET - 5, cell_size * num_of_cells + 10, cell_size * num_of_cells + 10), 5)
     game.draw()
-
+    
     title_surface = title_font.render(decision, True, DARKBLUE)
     screen.blit(title_surface, (OFFSET - 5, 20))
 
