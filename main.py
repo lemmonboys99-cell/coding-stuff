@@ -1,5 +1,11 @@
 import pygame,sys,random
 from pygame.math import Vector2
+import os
+
+if os.name == 'nt':  # For Windows
+    os.system('cls')
+else:  # For macOS and Linux
+    os.system('clear')
 
 pygame.init()
 
@@ -27,7 +33,7 @@ class Food():
     
         position = self.gen_random_cell()
         while position in snake_body:
-            position = self.gen_random_cell
+            position = self.gen_random_cell()
         return position
 
 class Snake():
