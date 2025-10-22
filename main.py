@@ -2,6 +2,8 @@ import pygame,sys,random
 from pygame.math import Vector2
 import os
 
+
+
 if os.name == 'nt':  # For Windows
     os.system('cls')
 else:  # For macOS and Linux
@@ -19,6 +21,7 @@ else:
 pygame.init()
 
 title_font = pygame.font.Font(None, 50)
+score_font = pygame.font.Font(None, 60)
 
 BLUE = (80, 133, 188)
 DARKBLUE = (8,96,168)
@@ -53,6 +56,7 @@ class Snake():
         self.body = [Vector2(6,9), Vector2(5,9), Vector2(4,9)]
         self.direction = Vector2(1,0)
         self.add_segment = False
+        self.epic_music = pygame.mixer.Sound("sounds\\DragonForce Through the Fire and Flames.mp3")
 
     def draw(self):
         for segment in self.body:
@@ -72,11 +76,15 @@ class Snake():
         self.body = [Vector2(6,9), Vector2(5,9), Vector2(4,9)]
         self.direction = Vector2(1,0)
 
+    
+
 class Game():
     def __init__(self):
         self.snake = Snake()
         self.food = Food(self.snake.body)
         self.state = "RUNNING"
+        self.score = 0
+        self.snake.epic_music.play()
 
     def draw(self):
         self.food.draw()
@@ -94,6 +102,9 @@ class Game():
         if self.snake.body[0] == self.food.position:
             self.food.position = self.food.gen_random_pos(self.snake.body)
             self.snake.add_segment = True
+            self.score +=1
+    
+   
 
     def check_collision_with_edges(self):
         if self.snake.body[0].x == num_of_cells or self.snake.body[0].x == -1:
@@ -105,6 +116,7 @@ class Game():
         self.snake.reset()
         self.food.position = self.food.gen_random_pos(self.snake.body)
         self.state = "STOPPED"
+        self.score = 0
 
     def check_collision_with_tail(self):
         headless_body = self.snake.body[1:]
@@ -125,9 +137,11 @@ SNAKE_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SNAKE_UPDATE, 200)
 
 while True:
+    
     for event in pygame.event.get():
         if event.type == SNAKE_UPDATE:
             game.update()
+            
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -153,7 +167,11 @@ while True:
     game.draw()
     
     title_surface = title_font.render(decision, True, DARKBLUE)
+    score_surface = score_font.render(str(game.score), True, DARKBLUE)
     screen.blit(title_surface, (OFFSET - 5, 20))
+    screen.blit(score_surface,(OFFSET-5 , OFFSET + cell_size*num_of_cells + 10))
+
+
 
     pygame.display.update()
     clock.tick(60)
