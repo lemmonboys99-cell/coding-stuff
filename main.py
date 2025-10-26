@@ -76,8 +76,6 @@ class Snake():
         self.body = [Vector2(6,9), Vector2(5,9), Vector2(4,9)]
         self.direction = Vector2(1,0)
 
-    
-
 class Game():
     def __init__(self):
         self.snake = Snake()
@@ -103,8 +101,6 @@ class Game():
             self.food.position = self.food.gen_random_pos(self.snake.body)
             self.snake.add_segment = True
             self.score +=1
-    
-   
 
     def check_collision_with_edges(self):
         if self.snake.body[0].x == num_of_cells or self.snake.body[0].x == -1:
