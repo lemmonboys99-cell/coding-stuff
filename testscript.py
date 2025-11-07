@@ -1,35 +1,23 @@
-import pygame,sys,random
-from pygame.math import Vector2
 import os
-
-
 
 if os.name == 'nt':  # For Windows
     os.system('cls')
 else:  # For macOS and Linux
     os.system('clear')
 
+list = ['epstien', 'diddy', 'donald j pump', 'joe bidet', 'zohran mamadani', 'obama', 'stephen gobdflok hawking']
+print(', '.join(list))
 
-inventoryp = ['Ice Cream', 'Sandwich', 'Soda', "Salad", "Water"]
-inventory = ['ice cream', 'sandwich', 'soda', "salad", "water"]
-
-
-print("you has: ", end = "")
-for i in inventoryp:
-    if i == inventoryp[len(inventoryp)-1]:
-        print(i, end = ". \n")
+while True:
+    remove_who = input("what person would you like to remove from the epstien list? To exit the loop, enter \"exit\". ")
+    if remove_who == "exit":
         break
-    print(i, end = ", ")
-    
-choice = input('What would you like to eat? You can eat multiple items up to 3. ').lower()
-
-selection = None
-for item in inventory:
-    print(item)
-    if item in choice:
-        selection = item
-        print('yay worked')
+    elif len(list) == 0:
         break
     else:
-        print('didnt work sad')
-        
+        if remove_who in list:
+            list.remove(remove_who)
+            print(', '.join(list))
+        else:
+            print('vorp?')
+            break
